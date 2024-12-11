@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Security.Cryptography;
 
 namespace toverkaart.Pages
 {
@@ -14,7 +15,7 @@ namespace toverkaart.Pages
 
         public void OnGet()
         {
-
+            
         }
     }
 }
