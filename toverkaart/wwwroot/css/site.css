@@ -1,5 +1,5 @@
 html {
-  font-size: 14px;
+  font-size: 19px;
 }
 
 @media (min-width: 768px) {
@@ -13,10 +13,21 @@ html {
 }
 
 html {
-  position: relative;
   min-height: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 body {
-  margin-bottom: 60px;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+}
+
+.plattegrondfull {
+    background-image: src(~/images/plattegrond.png);
+    background-size: cover; /* Scale image to cover the entire container */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent tiling */
+    position: relative; /* Ensure it's positioned correctly for the map */
 }
