@@ -1,9 +1,16 @@
+using Microsoft.AspNetCore.Mvc;
+using toverkaart;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddRazorPages();
 
+builder.Services.AddTransient<DatabaseService>();
 var app = builder.Build();
+
+
+var databaseService = app.Services.GetRequiredService<DatabaseService>();
+databaseService.ConnectToDatabase();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
