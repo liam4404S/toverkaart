@@ -15,13 +15,16 @@ namespace toverkaart
         public void ConnectToDatabase()
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
+
             Console.WriteLine(connectionString);
+
             using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
                 Console.WriteLine("Connection successful!");
 
                 var command = new MySqlCommand("SELECT * FROM gebieden", connection);
+
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
