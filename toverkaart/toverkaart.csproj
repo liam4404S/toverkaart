@@ -14,4 +14,12 @@
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Content Update="Pages\kaart.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

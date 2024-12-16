@@ -16,17 +16,20 @@ namespace toverkaart
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
+            Console.WriteLine(connectionString);
+
             using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
                 Console.WriteLine("Connection successful!");
 
-                var command = new MySqlCommand("SELECT * FROM gebied ORDER BY id ASC", connection);
+                var command = new MySqlCommand("SELECT * FROM gebieden", connection);
+
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        Console.WriteLine(reader["column_name"]);
+                        Console.WriteLine(reader["soort"]);
                     }
                 }
             }
