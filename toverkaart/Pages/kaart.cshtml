@@ -1,14 +1,19 @@
 ﻿@page
-@model IndexModel
+@model KaartModel
 @{
-    ViewData["Title"] = "kaart";
+	ViewData["Title"] = "kaart";
 }
 
-<div class="plattegrondfull" usemap="#workmap"></div>
+<body>
+    <div class="map-container" id="mapContainer">
+        <img src="/images/plattegrond.png"
+             alt="Map"
+             class="map-image"
+             id="mapImage" />
+    </div>
 
-<map name="workmap">
-    <!-- Define your clickable areas here -->
-    <area shape="rect" coords="34,44,270,350" href="link1.html" alt="Area 1">
-    <area shape="circle" coords="337,300,44" href="link2.html" alt="Area 2">
-    <area shape="poly" coords="200,10,250,190,160,210" href="link3.html" alt="Area 3">
-</map>
+
+	<div class="infoboxbutton">
+		<button type="button" onclick="alert('wassup')">hai</button>
+	</div>
+</body>

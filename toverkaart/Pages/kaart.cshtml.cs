@@ -4,11 +4,11 @@ using System.Security.Cryptography;
 
 namespace toverkaart.Pages
 {
-    public class Kaart : PageModel
+    public class KaartModel : PageModel
     {
-        private readonly ILogger<Kaart> _logger;
+        private readonly ILogger<KaartModel> _logger;
 
-        public Kaart(ILogger<Kaart> logger)
+        public KaartModel(ILogger<KaartModel> logger)
         {
             _logger = logger;
         }

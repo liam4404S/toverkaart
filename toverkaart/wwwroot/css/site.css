@@ -9,14 +9,45 @@ html {
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevent scrollbars during zoom */
+}
+
+.map-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden; /* Hide overflowing parts of the image */
+    cursor: grab;
+}
+
+.map-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: center; /* Enable zooming from center */
+    transition: transform 0.1s ease; /* Smooth zoom transitions */
+}
+
+.infoboxbutton {
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 50%
 }
