@@ -1,62 +1,79 @@
 ﻿const mapContainer = document.getElementById('mapContainer');
 const mapImage = document.getElementById('mapImage');
+const buttonContainer = document.getElementById('buttonContainer');
 
 let scale = 1; // Initial zoom level
 let isDragging = false;
 let startX = 0, startY = 0;
 let translateX = 0, translateY = 0;
 
-// Handle mouse wheel zoom
+// Zoom functionality
 mapContainer.addEventListener('wheel', (event) => {
     event.preventDefault();
 
-    const zoomAmount = 0.1; // Zoom increment
-    const maxZoom = 3;
-    const minZoom = 0.5;
+    const zoomSpeed = 0.1; // Speed of zoom
+    const maxZoom = 4; // Maximum zoom
+    const minZoom = 0.5; // Minimum zoom
 
     // Adjust scale
-    scale += event.deltaY < 0 ? zoomAmount : -zoomAmount;
-    scale = Math.min(Math.max(scale, minZoom), maxZoom); // Clamp zoom levels
+    scale += event.deltaY < 0 ? zoomSpeed : -zoomSpeed;
+    scale = Math.min(Math.max(scale, minZoom), maxZoom);
 
-    // Apply scaling
-    mapImage.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+    applyTransform();
 });
 
-// Handle drag start
+// Drag functionality
 mapContainer.addEventListener('mousedown', (event) => {
     isDragging = true;
     startX = event.clientX;
     startY = event.clientY;
-    mapContainer.style.cursor = 'grabbing'; // Change cursor
+    mapContainer.style.cursor = 'grabbing';
 });
 
-// Handle dragging
 mapContainer.addEventListener('mousemove', (event) => {
     if (!isDragging) return;
 
-    // Calculate the drag offset
+    // Calculate movement
     const dx = event.clientX - startX;
     const dy = event.clientY - startY;
 
-    // Update the translation values
-    translateX += dx / scale; // Adjust for current zoom level
-    translateY += dy / scale;
+    translateX += dx;
+    translateY += dy;
 
-    // Apply transformation
-    mapImage.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
-
-    // Update start position
     startX = event.clientX;
     startY = event.clientY;
+
+    applyTransform();
 });
 
-// Handle drag end
 mapContainer.addEventListener('mouseup', () => {
     isDragging = false;
     mapContainer.style.cursor = 'grab';
 });
 
 mapContainer.addEventListener('mouseleave', () => {
-    isDragging = false; // Stop dragging if the mouse leaves the container
+    isDragging = false;
     mapContainer.style.cursor = 'grab';
 });
+
+// Apply zoom and pan transformations
+function applyTransform() {
+    const rect = mapContainer.getBoundingClientRect();
+    const imageRect = mapImage.getBoundingClientRect();
+
+    // Ensure the image stays within the container bounds
+    const maxTranslateX = Math.max(0, (rect.width - imageRect.width * scale));
+    const maxTranslateY = Math.max(0, (rect.height - imageRect.height * scale));
+
+    translateX = Math.min(translateX, maxTranslateX);
+    translateY = Math.min(translateY, maxTranslateY);
+    translateX = Math.max(translateX, rect.width - imageRect.width * scale);
+    translateY = Math.max(translateY, rect.height - imageRect.height * scale);
+
+    // Apply transformations
+    const transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    mapImage.style.transform = transform;
+    buttonContainer.style.transform = `translate(${translateX}px, ${translateY}px)`;
+
+    buttonContainer.style.scale = `${1 / scale}`;
+}

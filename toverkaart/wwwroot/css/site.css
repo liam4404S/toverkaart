@@ -1,11 +1,11 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
@@ -17,37 +17,66 @@ html {
     min-height: 100%;
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden; /* Prevent scrollbars during zoom */
+        body {
+            margin: 0;
+            overflow: hidden; /* Prevent scrollbars */
+        }
+
+        /* Map Container */
+        .map-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            cursor: grab;
+        }
+
+        /* Zoomable Map Image */
+        .map-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-origin: top left; /* Scale and pan from top left */
+            transition: transform 0.1s ease-out;
+        }
+
+        /* Buttons Positioned on the Map */
+        .button-container {
+            position: absolute;
+            padding: 5px 10px;
+            background-color: #258cfb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transform-origin: center;
+            transition: transform 0.1s ease-out;
+        }
+
+        .button-container:hover {
+            background-color: #1d6ec2;
+        }
+
+        #buttonContainer {
+            transform-origin: top left;
+        }
+
+/*inlog pagina hieronder:*/
+/*donkerblauw: #092F87*/
+.inlogBackground {
+    background-image:url(../images/inlogbg.png);
+    background-size: cover;
 }
 
-.map-container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden; /* Hide overflowing parts of the image */
-    cursor: grab;
-}
-
-.map-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform-origin: center; /* Enable zooming from center */
-    transition: transform 0.1s ease; /* Smooth zoom transitions */
-}
-
-.infoboxbutton {
-    border: none;
+.accountAanmakenButton {
+    background-color: #092F87;
     color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 50%
+    border: white;
+    display: block;
+    padding: 14px 40px;
+}
+
+.inlogButton {
+
 }

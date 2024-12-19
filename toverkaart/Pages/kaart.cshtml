@@ -6,14 +6,18 @@
 
 <body>
     <div class="map-container" id="mapContainer">
-        <img src="/images/plattegrond.png"
-             alt="Map"
-             class="map-image"
-             id="mapImage" />
+        <img draggable="false" 
+              src="/images/plattegrond.png"
+              alt="Map"
+              class="map-image"
+              id="mapImage" />
+             
+        <div class="button-container" id="buttonContainer">
+            <button type="button" onclick="alert('Button 1 clicked!')">Button 1</button>
+            <button type="button" onclick="alert('Button 2 clicked!')"></button>
+        </div>
     </div>
 
 
-	<div class="infoboxbutton">
-		<button type="button" onclick="alert('wassup')">hai</button>
-	</div>
+	
 </body>

@@ -1,7 +1,10 @@
+using toverkaart;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddTransient<DatabaseService>();
+builder.Services.AddSingleton<DatabaseService>();
 
 var app = builder.Build();
 

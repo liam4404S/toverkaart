@@ -20,15 +20,6 @@ namespace toverkaart
             {
                 connection.Open();
                 Console.WriteLine("Connection successful!");
-
-                var command = new MySqlCommand("SELECT * FROM gebieden", connection);
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        Console.WriteLine(reader["soort"]);
-                    }
-                }
             }
         }
     }
