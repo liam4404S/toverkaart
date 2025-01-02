@@ -1,17 +1,22 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "kaart";
+	ViewData["Title"] = "kaart";
 }
 
-<div class="inlogBackground">
-<div item>
-    <input placeholder="naam" />
-    <input placeholder="wachtwoord"/>
-</div>
-
-<div>
-<button class="accountAanmakenButton">account aanmaken</button>
-<button class="loginButton">login</button>
-</div>
-</div>
+<main class="inlogBackground">
+	<section class="inlogContents">
+		<div>
+			<input class="inlogContentsSize" placeholder="naam" />
+		</div>
+		<div>
+			<input class="inlogContentsSize" placeholder="wachtwoord" />
+		</div>
+		<div>
+			<button class="inlogContentsSize buttonDesignInlog">account aanmaken</button>
+		</div>
+		<div>
+			<button class="inlogContentsSize buttonDesignInlog">login</button>
+		</div>
+	</section>
+</main>

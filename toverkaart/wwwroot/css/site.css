@@ -65,18 +65,44 @@ html {
 /*inlog pagina hieronder:*/
 /*donkerblauw: #092F87*/
 .inlogBackground {
-    background-image:url(../images/inlogbg.png);
+    background-image: url(../images/inlogbg.png);
     background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    position: fixed; /* Fixes the element to the viewport */
+    top: 50px;
+    left: 0;
+    z-index: -2
 }
 
-.accountAanmakenButton {
+.buttonDesignInlog {
     background-color: #092F87;
-    color: white;
-    border: white;
+    color: #FFFFFF;
+    border: 2px solid #FFFFFF;
     display: block;
     padding: 14px 40px;
+    transition-duration: 0.4s;
 }
 
-.inlogButton {
+.buttonDesignInlog:hover {
+    background-color: #FFFFFF;
+    color: #092F87;
+}
 
+.inlogContents {
+    position: relative;
+    top: 30%;
+    left: 13%;
+}
+
+.inlogContents>div {
+    padding: 10px;
+    align-self: center;
+    position: center;
+}
+
+.inlogContentsSize {
+    width: 320px;
 }
