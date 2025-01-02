@@ -15,7 +15,9 @@ namespace toverkaart
         public void ConnectToDatabase()
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
+
             Console.WriteLine(connectionString);
+
             using (var connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
