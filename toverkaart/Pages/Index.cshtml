@@ -1,22 +1,27 @@
 ﻿@page
 @model IndexModel
 @{
-	ViewData["Title"] = "kaart";
+	ViewData["Title"] = "inlog pagina";
 }
 
 <main class="inlogBackground">
 	<section class="inlogContents">
-		<div>
-			<input class="inlogContentsSize" placeholder="naam" />
-		</div>
-		<div>
-			<input class="inlogContentsSize" placeholder="wachtwoord" />
-		</div>
-		<div>
-			<button class="inlogContentsSize buttonDesignInlog">account aanmaken</button>
-		</div>
-		<div>
-			<button class="inlogContentsSize buttonDesignInlog">login</button>
-		</div>
+		<form method="post">
+			<div>
+				<input asp-for="Email" class="inlogContentsSize" placeholder="Email" />
+			</div>
+			<div>
+				<input asp-for="Wachtwoord" class="inlogContentsSize" placeholder="Wachtwoord" />
+			</div>
+			<div>
+				<button type="submit" asp-page-handler="CreateAccount" class="inlogContentsSize buttonDesignInlog">account aanmaken</button>
+			</div>
+			<div>
+				<button type="submit" asp-page-handler="Login" class="inlogContentsSize buttonDesignInlog">login</button>
+			</div>
+			<div style="color: red;">
+				@Model.ErrorMessage
+			</div>
+		</form>
 	</section>
 </main>

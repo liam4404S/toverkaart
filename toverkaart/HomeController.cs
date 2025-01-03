@@ -11,7 +11,7 @@ namespace toverkaart
         }
         public IActionResult Index()
         {
-            _databaseService.ConnectToDatabase();
+            _databaseService.GetConnection();
 
             return View();
         }
