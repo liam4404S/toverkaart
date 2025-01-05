@@ -77,3 +77,23 @@ function applyTransform() {
 
     buttonContainer.style.scale = `${1 / scale}`;
 }
+function showPopup() {
+    event.preventDefault();
+    Swal.fire({
+        title: "Maak een account aan",
+        html: `
+            <form id="accountForm">
+                <input id="voornaam" name="Voornaam" class="swal2-input" placeholder="Voornaam">
+                <input id="achternaam" name="Achternaam" class="swal2-input" placeholder="Achternaam">
+                <input id="email" name="Email" class="swal2-input" placeholder="Email">
+                <input id="wachtwoord" name="Wachtwoord" type="password" class="swal2-input" placeholder="Wachtwoord">
+                <input id="herhaalWachtwoord" name="HerhaalWachtwoord" type="password" class="swal2-input" placeholder="Herhaal Wachtwoord">
+            </form>
+        `,
+        showCancelButton: true,
+        showConfirmButton: true,
+        confirmButtonText: "Aanmaken",
+        cancelButtonText: "Annuleren",
+        icon: 'info'
+    })
+}

@@ -5,23 +5,22 @@
 }
 
 <main class="inlogBackground">
-	<section class="inlogContents">
-		<form method="post">
+	<form method="post" class="inlogContents">
 			<div>
 				<input asp-for="Email" class="inlogContentsSize" placeholder="Email" />
 			</div>
 			<div>
 				<input asp-for="Wachtwoord" class="inlogContentsSize" placeholder="Wachtwoord" />
 			</div>
-			<div>
-				<button type="submit" asp-page-handler="CreateAccount" class="inlogContentsSize buttonDesignInlog">account aanmaken</button>
-			</div>
+
 			<div>
 				<button type="submit" asp-page-handler="Login" class="inlogContentsSize buttonDesignInlog">login</button>
 			</div>
-			<div style="color: red;">
+			<div>
+				<button class="inlogContentsSize buttonDesignInlog" onclick="showPopup()">Show Popup</button>
+			</div>
+			<div class="loginError" style="color: red;">
 				@Model.ErrorMessage
 			</div>
-		</form>
-	</section>
+	</form>	
 </main>

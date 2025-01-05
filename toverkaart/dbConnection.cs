@@ -54,5 +54,20 @@ namespace toverkaart
                 }
             }
         }
+
+        public int ExecuteNonQuery(string query, params MySqlParameter[] parameters)
+        {
+            using(var connection = GetConnection())
+            {
+                using(var command = new MySqlCommand(query, connection))
+                {
+                    if (parameters != null)
+                    {
+                        command.Parameters.AddRange(parameters);
+                    }
+                    return command.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
