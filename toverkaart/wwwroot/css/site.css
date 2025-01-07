@@ -16,51 +16,39 @@ html {
     position: relative;
     min-height: 100%;
 }
+.map-viewer-body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
 
-        body {
-            margin: 0;
-            overflow: hidden; /* Prevent scrollbars */
-        }
+.map-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    cursor: grab;
+}
 
-        /* Map Container */
-        .map-container {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-            cursor: grab;
-        }
+    .map-container:active {
+        cursor: grabbing;
+    }
 
-        /* Zoomable Map Image */
-        .map-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            transform-origin: top left; /* Scale and pan from top left */
-            transition: transform 0.1s ease-out;
-        }
+.map-image {
+    position: absolute;
+    transform-origin: 0 0;
+    transition: transform 0.1s ease-out;
+}
 
-        /* Buttons Positioned on the Map */
-        .button-container {
-            position: absolute;
-            padding: 5px 10px;
-            background-color: #258cfb;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 12px;
-            transform-origin: center;
-            transition: transform 0.1s ease-out;
-        }
-
-        .button-container:hover {
-            background-color: #1d6ec2;
-        }
-
-        #buttonContainer {
-            transform-origin: top left;
-        }
+.map-attraction {
+    position: absolute;
+    padding: 5px 10px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
 /*inlog pagina hieronder:*/
 /*donkerblauw: #092F87*/
@@ -107,3 +95,26 @@ html {
     width: 320px;
 }
 
+.inlogVisible {
+    display: block;
+}
+
+.aanmaakVisible {
+    display: none;
+}
+
+/*attractielijst*/
+section#attractielijst {
+    display: flex;
+    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    height: 300px;
+}
+
+section#attractielijst > div {
+    flex-wrap: nowrap;
+    padding: 20px;
+    border: solid black 1px;
+    height: 230px;
+    }

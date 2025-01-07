@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -8,10 +8,18 @@
 
   <ItemGroup>
     <Compile Remove="dbTest.cs" />
+    <Compile Remove="Pages\Index - Copy.cshtml.cs" />
+    <Compile Remove="Pages\Index1.cshtml.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\Index - Copy.cshtml" />
+    <Content Remove="Pages\Index1.cshtml" />
     <Content Remove="wwwroot\css\inlog.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Pages\NewFile.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,7 +32,7 @@
 
 
   <ItemGroup>
-    <Content Update="Pages\kaart.cshtml">
+    <Content Update="Pages\Kaart.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

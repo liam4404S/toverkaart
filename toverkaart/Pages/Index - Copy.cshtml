@@ -1,0 +1,48 @@
+﻿@page
+@model IndexModel
+@{
+	ViewData["Title"] = "inlog pagina";
+}
+
+<main class="inlogBackground">
+	<form method="post" class="inlogContents">
+		<div id="inlogVisible" class="inlogVisible">	
+			<div>
+				<input asp-for="Email" class="inlogContentsSize" placeholder="Email" />
+			</div>
+			<div>
+				<input asp-for="Wachtwoord" class="inlogContentsSize" placeholder="Wachtwoord" />
+			</div>
+
+			<div>
+				<button type="submit" asp-page-handler="Login" class="inlogContentsSize buttonDesignInlog">login</button>
+			</div>
+			<div class="loginError" style="color: red;">
+				@Model.ErrorMessage
+			</div>
+			<div>
+				<button type="button" id="toggleVisible" class="inlogContentsSize buttonDesignInlog">Maak een account aan</button>
+			</div>
+		</div>
+		<div id="aanmaakVisible" class="aanmaakVisible">
+			<div>
+				<input name="Voornaam" class="inlogContentsSize" placeholder="Voornaam" />
+			</div>
+			<div>
+				<input name="Achternaam" class="inlogContentsSize" placeholder="Achternaam" />
+			</div>
+			<div>
+				<input name="CreateEmail" class="inlogContentsSize" placeholder="Email" />
+			</div>
+			<div>
+				<input name="CreateWachtwoord" type="password" class="inlogContentsSize" placeholder="Wachtwoord" />
+			</div>
+			<div>
+				<input name="HerhaalWachtwoord" type="password" class="inlogContentsSize" placeholder="Herhaal Wachtwoord" />
+			</div>
+			<div>
+				<button type="submit" asp-page-handler="CreateAccount" class="inlogContentsSize buttonDesignInlog">Aanmaken</button>
+			</div>
+		</div>
+	</form>
+</main>

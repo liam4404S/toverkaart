@@ -62,5 +62,30 @@ namespace toverkaart
             errorMessage = "ongeldig e-mail address of wachtwoord.";
             return false;
         }
+
+        public bool CreateAccount(string voornaam, string achternaam, string email, string wachtwoord, string rol)
+        {
+            try
+            {
+                string query = "INSERT INTO mensen (Voornaam, Achternaam, Email, Wachtwoord, Rol) VALUES (@Voornaam, @Achternaam, @Email, @Wachtwoord, @Rol)";
+
+                var parameters = new MySqlParameter[]
+                {
+                new MySqlParameter("@Voornaam", MySqlDbType.VarChar) { Value = voornaam },
+                new MySqlParameter("@Achternaam", MySqlDbType.VarChar) { Value = achternaam },
+                new MySqlParameter("@Email", MySqlDbType.VarChar) { Value = email },
+                new MySqlParameter("@Wachtwoord", MySqlDbType.VarChar) { Value = wachtwoord }, 
+                new MySqlParameter("@Rol", MySqlDbType.VarChar) {Value = rol}
+                };
+
+                var result = _databaseService.ExecuteNonQuery(query, parameters);
+                return result > 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error creating account: {ex.Message}");
+                return false;
+            }
+        }
     }
 }

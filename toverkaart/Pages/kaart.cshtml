@@ -1,23 +1,16 @@
 ﻿@page
 @model KaartModel
 @{
-	ViewData["Title"] = "kaart";
+	ViewData["Title"] = "Kaart";
 }
 
-<body>
+<body class="map-viewer-body">
     <div class="map-container" id="mapContainer">
-        <img draggable="false" 
-              src="/images/plattegrond.png"
-              alt="Map"
-              class="map-image"
-              id="mapImage" />
-             
-        <div class="button-container" id="buttonContainer">
-            <button type="button" onclick="alert('Button 1 clicked!')">Button 1</button>
-            <button type="button" onclick="alert('Button 2 clicked!')"></button>
-        </div>
+        <img class="map-image" id="mapImage" src="~/images/plattegrond.png" alt="Map" draggable="false" />
+
+        <!-- Buttons for attractions -->
+        <button class="map-attraction" data-x="150" data-y="200" onclick="alert('Attraction 1')"></button>
+        <button class="map-attraction" data-x="400" data-y="300" onclick="alert('Attraction 2')"></button>
+        <button class="map-attraction" data-x="600" data-y="500" onclick="alert('Attraction 3')"></button>
     </div>
-
-
-	
 </body>

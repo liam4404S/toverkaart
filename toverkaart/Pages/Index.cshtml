@@ -6,21 +6,45 @@
 
 <main class="inlogBackground">
 	<form method="post" class="inlogContents">
+		<div id="inlogVisible" class="inlogVisible">	
 			<div>
 				<input asp-for="Email" class="inlogContentsSize" placeholder="Email" />
 			</div>
 			<div>
-				<input asp-for="Wachtwoord" class="inlogContentsSize" placeholder="Wachtwoord" />
+				<input asp-for="Wachtwoord" type="password" class="inlogContentsSize" placeholder="Wachtwoord" />
 			</div>
-
 			<div>
 				<button type="submit" asp-page-handler="Login" class="inlogContentsSize buttonDesignInlog">login</button>
 			</div>
 			<div>
-				<button class="inlogContentsSize buttonDesignInlog" onclick="showPopup()">Show Popup</button>
+				<button onclick="toggleVisible()" class="inlogContentsSize buttonDesignInlog">Maak een account aan</button>
 			</div>
-			<div class="loginError" style="color: red;">
-				@Model.ErrorMessage
+		</div>
+		<div id="aanmaakVisible" class="aanmaakVisible">
+			<div>
+				<input asp-for="CreateVoornaam" class="inlogContentsSize" placeholder="Voornaam" />
 			</div>
-	</form>	
+			<div>
+				<input asp-for="CreateAchternaam" class="inlogContentsSize" placeholder="Achternaam" />
+			</div>
+			<div>
+				<input asp-for="CreateEmail" class="inlogContentsSize" placeholder="Email" />
+			</div>
+			<div>
+				<input asp-for="CreateWachtwoord" type="password" class="inlogContentsSize" placeholder="Wachtwoord" />
+			</div>
+			<div>
+				<input asp-for="CreateHerhaalWachtwoord" type="password" class="inlogContentsSize" placeholder="Herhaal Wachtwoord" />
+			</div>
+			<div>
+				<button type="submit" asp-page-handler="CreateAccount" class="inlogContentsSize buttonDesignInlog">Aanmaken</button>
+			</div>
+			<div>
+				<button onclick="toggleVisible()" class="inlogContentsSize buttonDesignInlog">annuleer</button>
+			</div>
+		</div>
+		<div class="loginError" style="color: red;">
+			@Model.ErrorMessage
+		</div>
+	</form>
 </main>

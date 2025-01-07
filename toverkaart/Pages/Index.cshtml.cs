@@ -10,12 +10,13 @@ namespace toverkaart.Pages
     {
         private readonly DatabaseService _databaseService;
         private readonly ILogger<IndexModel> _logger;
-
-        [BindProperty] public string Voornaam { get; set; } = string.Empty;
-        [BindProperty] public string Achternaam { get; set; } = string.Empty;
         [BindProperty] public string Email { get; set; } = string.Empty;
         [BindProperty] public string Wachtwoord { get; set; } = string.Empty;
-        [BindProperty] public string HerhaalWachtwoord { get; set; } = string.Empty;
+        [BindProperty] public string CreateVoornaam { get; set; } = string.Empty;
+        [BindProperty] public string CreateAchternaam { get; set; } = string.Empty;
+        [BindProperty] public string CreateEmail { get; set; } = string.Empty;
+        [BindProperty] public string CreateWachtwoord { get; set; } = string.Empty;
+        [BindProperty] public string CreateHerhaalWachtwoord { get; set; } = string.Empty;
 
         public string ErrorMessage { get; set; } = string.Empty;
 
@@ -32,11 +33,11 @@ namespace toverkaart.Pages
                 return Page();
             }
 
-            var mens = new Account(_databaseService);
+            var persoon = new Account(_databaseService);
 
-            if (mens.Correctlogin(Email, Wachtwoord, out string errorMessage))
+            if (persoon.Correctlogin(Email, Wachtwoord, out string errorMessage))
             {
-                var user = mens.GetUserByEmail(Email);
+                var user = persoon.GetUserByEmail(Email);
                 _logger.LogInformation($"User logged in successfully: {user.Id}, {user.Voornaam}, {user.Achternaam}, {Email}, {Wachtwoord}, {user.Rol}.");
                 return RedirectToPage("/kaart");
             }
@@ -50,34 +51,43 @@ namespace toverkaart.Pages
         {
             try
             {
-                // Log received data
-                _logger.LogInformation($"Received: {Voornaam}, {Achternaam}, {Email}, {Wachtwoord}, {HerhaalWachtwoord}");
+                _logger.LogInformation($"Received: {CreateVoornaam}, {CreateAchternaam}, {CreateEmail}, {CreateWachtwoord}, {CreateHerhaalWachtwoord}");
 
-                // Validation
-                if (string.IsNullOrEmpty(Voornaam) || string.IsNullOrEmpty(Achternaam) ||
-                    string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Wachtwoord) ||
-                    string.IsNullOrEmpty(HerhaalWachtwoord))
+                if (string.IsNullOrEmpty(CreateVoornaam) || string.IsNullOrEmpty(CreateAchternaam) ||
+                    string.IsNullOrEmpty(CreateEmail) || string.IsNullOrEmpty(CreateWachtwoord) ||
+                    string.IsNullOrEmpty(CreateHerhaalWachtwoord))
                 {
-                    return BadRequest(new { success = false, message = "Vul alle velden in." });
+                    ErrorMessage = "Vul alle velden in.";
+                    return Page();
                 }
 
-                if (Wachtwoord != HerhaalWachtwoord)
+                if (CreateWachtwoord != CreateHerhaalWachtwoord)
                 {
-                    return BadRequest(new { success = false, message = "Wachtwoorden komen niet overeen." });
+                    ErrorMessage = "Wachtwoorden komen niet overeen.";
+                    return Page();
                 }
 
-                var account = new Account(_databaseService);
-                var existingUser = account.GetUserByEmail(Email);
+                var persoon = new Account(_databaseService);
+                var existingUser = persoon.GetUserByEmail(CreateEmail);
 
                 if (existingUser != null)
                 {
-                    return BadRequest(new { success = false, message = "E-mail adres is al gelinkt aan een account." });
+                    ErrorMessage = "E-mail adres is al gelinkt aan een account.";
+                    return Page();
                 }
 
-                // Log successful account creation
-                _logger.LogInformation($"Account aangemaakt voor {Voornaam} {Achternaam}");
+                bool isAccountCreated = persoon.CreateAccount(CreateVoornaam, CreateAchternaam, CreateEmail, CreateWachtwoord, "Bezoeker");
 
-                return new JsonResult(new { success = true, message = "Account aangemaakt!" });
+                if (isAccountCreated)
+                {
+                    _logger.LogInformation($"Account aangemaakt voor {CreateVoornaam} {CreateAchternaam}");
+                    return RedirectToPage("/Kaart");
+                }
+                else
+                {
+                    ErrorMessage = "Er is iets misgegaan bij het aanmaken van het account.";
+                    return Page();
+                }
             }
             catch (Exception ex)
             {

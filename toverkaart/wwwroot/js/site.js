@@ -1,99 +1,103 @@
-﻿const mapContainer = document.getElementById('mapContainer');
-const mapImage = document.getElementById('mapImage');
-const buttonContainer = document.getElementById('buttonContainer');
+﻿const mapImage = document.getElementById('mapImage');
+const container = document.getElementById('mapContainer');
 
-let scale = 1; // Initial zoom level
+let scale = 1;
+let originX = 0;
+let originY = 0;
+let startX = 0;
+let startY = 0;
 let isDragging = false;
-let startX = 0, startY = 0;
-let translateX = 0, translateY = 0;
 
-// Zoom functionality
-mapContainer.addEventListener('wheel', (event) => {
-    event.preventDefault();
+const imageWidth = 3554; // Set your image width here
+const imageHeight = 2500; // Set your image height here
 
-    const zoomSpeed = 0.1; // Speed of zoom
-    const maxZoom = 4; // Maximum zoom
-    const minZoom = 0.5; // Minimum zoom
+// Update transform and button positions
+function updateTransform() {
+    const containerRect = container.getBoundingClientRect();
 
-    // Adjust scale
-    scale += event.deltaY < 0 ? zoomSpeed : -zoomSpeed;
-    scale = Math.min(Math.max(scale, minZoom), maxZoom);
+    // Calculate max pan values based on zoom level
+    const maxX = imageWidth * scale - containerRect.width;
+    const maxY = imageHeight * scale - containerRect.height;
 
-    applyTransform();
+    // Constrain the panning within bounds
+    originX = Math.max(Math.min(originX, 0), -maxX);
+    originY = Math.max(Math.min(originY, 0), -maxY);
+
+    // Apply the transformation to the map image
+    mapImage.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
+
+    // Update button positions
+    document.querySelectorAll('.map-attraction').forEach((btn) => {
+        const x = parseFloat(btn.getAttribute('data-x')); // Original position of the button
+        const y = parseFloat(btn.getAttribute('data-y'));
+
+        // Adjust button position based on pan (origin) and scale
+        const btnX = (x * scale) + originX;
+        const btnY = (y * scale) + originY;
+
+        // Set the position for the buttons using transform
+        btn.style.transform = `translate(${btnX}px, ${btnY}px)`;
+    });
+}
+
+container.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const zoomIntensity = 0.1;
+    const direction = e.deltaY > 0 ? -1 : 1;
+    const scaleFactor = 1 + direction * zoomIntensity;
+
+    const rect = mapImage.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    const dx = mouseX / scale - mouseX / (scale * scaleFactor);
+    const dy = mouseY / scale - mouseY / (scale * scaleFactor);
+
+    originX += dx;
+    originY += dy;
+    scale *= scaleFactor;
+
+    // Ensure the scale is within bounds
+    scale = Math.min(Math.max(scale, 0.5), 3); // You can adjust the scale range
+
+    updateTransform();
 });
 
-// Drag functionality
-mapContainer.addEventListener('mousedown', (event) => {
+container.addEventListener('mousedown', (e) => {
     isDragging = true;
-    startX = event.clientX;
-    startY = event.clientY;
-    mapContainer.style.cursor = 'grabbing';
+    startX = e.clientX - originX;
+    startY = e.clientY - originY;
+    container.style.cursor = 'grabbing';
 });
 
-mapContainer.addEventListener('mousemove', (event) => {
+window.addEventListener('mousemove', (e) => {
     if (!isDragging) return;
-
-    // Calculate movement
-    const dx = event.clientX - startX;
-    const dy = event.clientY - startY;
-
-    translateX += dx;
-    translateY += dy;
-
-    startX = event.clientX;
-    startY = event.clientY;
-
-    applyTransform();
+    originX = e.clientX - startX;
+    originY = e.clientY - startY;
+    updateTransform();
 });
 
-mapContainer.addEventListener('mouseup', () => {
+window.addEventListener('mouseup', () => {
     isDragging = false;
-    mapContainer.style.cursor = 'grab';
+    container.style.cursor = 'grab';
 });
 
-mapContainer.addEventListener('mouseleave', () => {
-    isDragging = false;
-    mapContainer.style.cursor = 'grab';
-});
+updateTransform();
 
-// Apply zoom and pan transformations
-function applyTransform() {
-    const rect = mapContainer.getBoundingClientRect();
-    const imageRect = mapImage.getBoundingClientRect();
-
-    // Ensure the image stays within the container bounds
-    const maxTranslateX = Math.max(0, (rect.width - imageRect.width * scale));
-    const maxTranslateY = Math.max(0, (rect.height - imageRect.height * scale));
-
-    translateX = Math.min(translateX, maxTranslateX);
-    translateY = Math.min(translateY, maxTranslateY);
-    translateX = Math.max(translateX, rect.width - imageRect.width * scale);
-    translateY = Math.max(translateY, rect.height - imageRect.height * scale);
-
-    // Apply transformations
-    const transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-    mapImage.style.transform = transform;
-    buttonContainer.style.transform = `translate(${translateX}px, ${translateY}px)`;
-
-    buttonContainer.style.scale = `${1 / scale}`;
-}
-function showPopup() {
+//inlog pagina visibility
+function toggleVisible() {
     event.preventDefault();
-    Swal.fire({
-        title: "Maak een account aan",
-        html: `
-            <form id="accountForm">
-                <input id="voornaam" name="Voornaam" class="swal2-input" placeholder="Voornaam">
-                <input id="achternaam" name="Achternaam" class="swal2-input" placeholder="Achternaam">
-                <input id="email" name="Email" class="swal2-input" placeholder="Email">
-                <input id="wachtwoord" name="Wachtwoord" type="password" class="swal2-input" placeholder="Wachtwoord">
-                <input id="herhaalWachtwoord" name="HerhaalWachtwoord" type="password" class="swal2-input" placeholder="Herhaal Wachtwoord">
-            </form>
-        `,
-        showCancelButton: true,
-        showConfirmButton: true,
-        confirmButtonText: "Aanmaken",
-        cancelButtonText: "Annuleren",
-        icon: 'info'
-    })
+    const inlogVisible = document.getElementById("inlogVisible");
+    const aanmaakVisible = document.getElementById("aanmaakVisible");
+    if (inlogVisible.style.display === "none") {
+        inlogVisible.style.display = "block";
+        aanmaakVisible.style.display = "none";
+    }
+    else {
+        inlogVisible.style.display = "none";
+        aanmaakVisible.style.display = "block";
+    }
 }
+
+
+
