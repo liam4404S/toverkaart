@@ -3,17 +3,41 @@
 @{
     ViewData["Title"] = "Attractielijst";
 }
+
+<form method="post">
+    <input asp-for="AttractieNaam" class="inlogContentsSize" placeholder="Attractie naam" />
+    <button type="submit" asp-page-handler="Search" class="buttonDesignInlog">search</button>
+</form>
 <body>
     <section id="attractielijst">
-        <div class="attractielijstItem">
-            <a>attractie 1</a>
-            <p>dit is geweldig</p>
+        <div class="attractielijstItem attractieContainer"> 
+           
+            <div class="attractieText">
+                <a>attractie 1</a>
+                <p>
+              
+                    ⠀⣿⣿⠁⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣧⠀⠀
+                    ⠀⣿⣿⠀⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⠀⠀
+                    ⠀⣿⣿⠀⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⠀⠀
+                    ⠀⢿⣿⡆⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⡇⠀⠀
+                    ⠀⠸⣿⣧⡀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⠃⠀⠀
+                    ⠀⠀⠛⢿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⣰⣿⣿⣷⣶⣶⣶⣶⠶⠀⢠⣿⣿⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⣿⣿⠀⠀⠀⠀⠀⣿⣿⡇⠀⣽⣿⡏⠁⠀⠀⢸⣿⡇⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⣿⣿⠀⠀⠀⠀⠀⣿⣿⡇⠀⢹⣿⡆⠀⠀⠀⣸⣿⠇⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⢿⣿⣦⣄⣀⣠⣴⣿⣿⠁⠀⠈⠻⣿⣿⣿⣿⡿⠏⠀⠀⠀⠀
+                    ⠀⠀⠀⠀⠀⠀⠀⠈⠛⠻⠿⠿⠿⠿⠋⠁
+                </p>
+            </div>
+             <div class="attractieImage">
+                <img src="https://placehold.co/200">
+            </div>
+
         </div>
-        <div>
+        <div class="attractieText">
             <a>troy</a>
             <p>hier is info voor de troyhier is info voor de troyhier is info voor de troyhier is info voor de troyhier is info voor de troyhier is info voor de troyhier is info voor de troyhier is info voor de troy</p>
         </div>
-        <div>attractie 3</div>
+        <div class="attractieImage">attractie 3</div>
     </section>
 </body>
 

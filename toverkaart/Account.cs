@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System.Data;
+using System.Reflection.Metadata.Ecma335;
 
 namespace toverkaart
 {
@@ -7,20 +8,19 @@ namespace toverkaart
     {
         private DatabaseService _databaseService;
 
+        public int Id { get; private set; }
+        public string Voornaam { get; set; } = string.Empty;
+        public string Achternaam { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Wachtwoord { get; set; } = string.Empty;
+        public string Rol { get; set; }
+
         public Account() { }
 
         public Account(DatabaseService databaseService)
         {
             _databaseService = databaseService;
         }
-
-        public int Id { get; set; }
-        public string Voornaam { get; set; } = string.Empty;
-        public string Achternaam { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public string Wachtwoord { get; set; } = string.Empty;
-        public string HerhaalWachtwoord { get; set; } = string.Empty;
-        public string Rol { get; set; }
 
         public Account? GetUserByEmail(string email)
         {
@@ -50,12 +50,16 @@ namespace toverkaart
 
         public bool Correctlogin(string email,string wachtwoord, out string errorMessage)
         {
-            errorMessage = string.Empty;
-
             var user = GetUserByEmail(email);
 
-            if (user != null && user.Wachtwoord == wachtwoord)
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(wachtwoord))
             {
+                errorMessage = "Vul beide velden in.";
+                return false;
+            }
+            else if (user != null && user.Wachtwoord == wachtwoord)
+            {
+                errorMessage = string.Empty;
                 return true;
             }
 
@@ -86,6 +90,42 @@ namespace toverkaart
                 Console.WriteLine($"Error creating account: {ex.Message}");
                 return false;
             }
+        }
+
+        public bool CreateAccountCheck(string voornaam, string achternaam, string email, string wachtwoord, string herhaalWachtwoord, out string errorMessage)
+        {
+            if (string.IsNullOrEmpty(voornaam) || string.IsNullOrEmpty(achternaam) ||
+                string.IsNullOrEmpty(email) || string.IsNullOrEmpty(wachtwoord) ||
+                string.IsNullOrEmpty(herhaalWachtwoord))
+            {
+                errorMessage = "Vul alle velden in.";
+                return true;
+            }
+            errorMessage = string.Empty;
+            return false;
+        }
+
+        public bool CreateAccountCheck(string wachtwoord, string herhaalWachtwoord, out string errorMessage)
+        {
+            if (wachtwoord != herhaalWachtwoord)
+            {
+                errorMessage = "Wachtwoorden komen niet overeen.";
+                return true;
+            }
+            errorMessage = string.Empty;
+            return false;
+        }
+
+        public bool CreateAccountCheck(string email, out string errorMessage)
+        {
+            var existingEmail = GetUserByEmail(email);
+            if (existingEmail != null)
+            {
+                errorMessage = "E-mail adres is al gelinkt aan een account.";
+                return true;
+            }
+            errorMessage = string.Empty;
+            return false;
         }
     }
 }

@@ -1,15 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Mysqlx;
 using System.Security.Cryptography;
-using toverkaart;
 
 namespace toverkaart.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly DatabaseService _databaseService;
-        private readonly ILogger<IndexModel> _logger;
+        private DatabaseService _databaseService;
+        private ILogger<IndexModel> _logger;
         [BindProperty] public string Email { get; set; } = string.Empty;
         [BindProperty] public string Wachtwoord { get; set; } = string.Empty;
         [BindProperty] public string CreateVoornaam { get; set; } = string.Empty;
@@ -26,16 +24,11 @@ namespace toverkaart.Pages
             _logger = logger;
         }
         public IActionResult OnPostLogin()
-        {
-            if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Wachtwoord))
-            {
-                ErrorMessage = "Vul beide velden in.";
-                return Page();
-            }
-
+        { 
             var persoon = new Account(_databaseService);
 
-            if (persoon.Correctlogin(Email, Wachtwoord, out string errorMessage))
+            var succesLogin = persoon.Correctlogin(Email, Wachtwoord, out string errorMessage);
+            if (succesLogin)
             {
                 var user = persoon.GetUserByEmail(Email);
                 _logger.LogInformation($"User logged in successfully: {user.Id}, {user.Voornaam}, {user.Achternaam}, {Email}, {Wachtwoord}, {user.Rol}.");
@@ -47,33 +40,35 @@ namespace toverkaart.Pages
                 return Page();
             }
         }
-        public IActionResult OnPostCreateAccount()
+
+        public IActionResult? OnPostCreateAccount()
         {
             try
             {
                 _logger.LogInformation($"Received: {CreateVoornaam}, {CreateAchternaam}, {CreateEmail}, {CreateWachtwoord}, {CreateHerhaalWachtwoord}");
 
-                if (string.IsNullOrEmpty(CreateVoornaam) || string.IsNullOrEmpty(CreateAchternaam) ||
-                    string.IsNullOrEmpty(CreateEmail) || string.IsNullOrEmpty(CreateWachtwoord) ||
-                    string.IsNullOrEmpty(CreateHerhaalWachtwoord))
-                {
-                    ErrorMessage = "Vul alle velden in.";
-                    return Page();
-                }
-
-                if (CreateWachtwoord != CreateHerhaalWachtwoord)
-                {
-                    ErrorMessage = "Wachtwoorden komen niet overeen.";
-                    return Page();
-                }
-
                 var persoon = new Account(_databaseService);
-                var existingUser = persoon.GetUserByEmail(CreateEmail);
 
-                if (existingUser != null)
+                var emptyField = persoon.CreateAccountCheck(CreateVoornaam, CreateAchternaam, CreateEmail, CreateWachtwoord, CreateHerhaalWachtwoord, out string errorMessage);
+                if (emptyField)
                 {
-                    ErrorMessage = "E-mail adres is al gelinkt aan een account.";
-                    return Page();
+                    ErrorMessage = errorMessage;
+                    return null;
+                }
+                
+                var passwordDifference = persoon.CreateAccountCheck(CreateWachtwoord, CreateHerhaalWachtwoord, out errorMessage);
+                if (passwordDifference)
+                {
+                    ErrorMessage = errorMessage;
+                    return null;
+                }
+
+                var existingUser = persoon.CreateAccountCheck(CreateEmail, out errorMessage);
+
+                if (existingUser)
+                {
+                    ErrorMessage = errorMessage;
+                    return null;
                 }
 
                 bool isAccountCreated = persoon.CreateAccount(CreateVoornaam, CreateAchternaam, CreateEmail, CreateWachtwoord, "Bezoeker");
