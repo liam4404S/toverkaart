@@ -11,15 +11,38 @@ namespace toverkaart
         public int Id { get; private set; }
         public string Voornaam { get; set; } = string.Empty;
         public string Achternaam { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public string Wachtwoord { get; set; } = string.Empty;
-        public string Rol { get; set; }
+
+        private string _email = string.Empty;
+        public string Email 
+        {
+            get => _email;
+            private set
+            {
+                if (string.IsNullOrWhiteSpace(value) || !value.Contains("@"))
+                    throw new ArgumentException("vul een geldig email addres in.");
+                _email = value;
+            }
+        }
+
+        private string _wachtwoord = string.Empty;
+        public string Wachtwoord
+        {
+            get => _wachtwoord;
+            private set
+            {
+                if (string.IsNullOrWhiteSpace(value) || value.Length < 6)
+                    throw new ArgumentException("wachtwoord moet 6 tekens lang zijn");
+                _wachtwoord = value;
+            }
+        }
+
+        public string Rol { get; private set; }
 
         public Account() { }
 
         public Account(DatabaseService databaseService)
         {
-            _databaseService = databaseService;
+            _databaseService = databaseService ?? throw new ArgumentException(nameof(databaseService));
         }
 
         public Account? GetUserByEmail(string email)
@@ -35,7 +58,7 @@ namespace toverkaart
             if (result.Rows.Count > 0)
             {
                 DataRow row = result.Rows[0];
-                return new Account()
+                return new Account(_databaseService)
                 {
                     Id = Convert.ToInt32(row["id"]),
                     Voornaam = row["voornaam"].ToString(),

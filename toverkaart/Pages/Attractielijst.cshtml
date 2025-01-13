@@ -10,34 +10,32 @@
 </form>
 <body>
     <section id="attractielijst">
-        <div class="attractielijstItem attractieContainer"> 
-           
-            <div class="attractieText">
-                <a>attractie 1</a>
-                <p>
-              
-                    ⠀⣿⣿⠁⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣧⠀⠀
-                    ⠀⣿⣿⠀⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⠀⠀
-                    ⠀⣿⣿⠀⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⠀⠀
-                    ⠀⢿⣿⡆⠀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⡇⠀⠀
-                    ⠀⠸⣿⣧⡀⠀⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⠃⠀⠀
-                    ⠀⠀⠛⢿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⣰⣿⣿⣷⣶⣶⣶⣶⠶⠀⢠⣿⣿⠀⠀⠀
-                    ⠀⠀⠀⠀⠀⠀⠀⣿⣿⠀⠀⠀⠀⠀⣿⣿⡇⠀⣽⣿⡏⠁⠀⠀⢸⣿⡇⠀⠀⠀
-                    ⠀⠀⠀⠀⠀⠀⠀⣿⣿⠀⠀⠀⠀⠀⣿⣿⡇⠀⢹⣿⡆⠀⠀⠀⣸⣿⠇⠀⠀⠀
-                    ⠀⠀⠀⠀⠀⠀⠀⢿⣿⣦⣄⣀⣠⣴⣿⣿⠁⠀⠈⠻⣿⣿⣿⣿⡿⠏⠀⠀⠀⠀
-                    ⠀⠀⠀⠀⠀⠀⠀⠈⠛⠻⠿⠿⠿⠿⠋⠁
-                </p>
-            </div>
-             <div class="attractieImage">
-                <img src="https://placehold.co/200">
-            </div>
+        @if (Model.GevondenAttracties.Any())
+        {
+            @foreach (var attractie in Model.GevondenAttracties)
+            {
+                <div class="attractielijstItem attractieContainer">
+                    <div class="attractieText">
+                        <a>@attractie.Naam</a>
+                        <p>
+                            <!-- Replace with your description or data for each attractie -->
+                            Example description for @attractie.Naam.
+                        </p>
 
-        </div>
-        <div class="attractieText">
-            <a>troy</a>
-            <p>hier is info voor de troyhier is info voor de troyhier is info voor de troyhier is info voor de troyhier is info voor de troyhier is info voor de troyhier is info voor de troyhier is info voor de troy</p>
-        </div>
-        <div class="attractieImage">attractie 3</div>
+                        <p><strong>Tijdsduur:</strong> @attractie.TijdsduurSec seconden</p>
+                        <p><strong>Status:</strong> @(attractie.Status ? "Open" : "Gesloten")</p>
+                        <p><strong>Gebied:</strong> @(attractie.AttractieGebied != null ? attractie.AttractieGebied.Naam : "Onbekend")</p>
+                    </div>
+                    <div class="attractieImage">
+                        <img src="https://placehold.co/200">
+                    </div>
+                </div>
+            }
+        }
+        else if (!string.IsNullOrEmpty(Model.AttractieNaam))
+        {
+            <p>Geen attractie gevonden met de naam "@Model.AttractieNaam".</p>
+        }
     </section>
 </body>
 

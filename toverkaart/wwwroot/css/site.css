@@ -138,3 +138,10 @@ section#attractielijst > div {
 .attractieContainer > div.attractieImage {
     grid-area: attractieImage;
 }
+
+.attractieResult {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #f9f9f9;
+}
