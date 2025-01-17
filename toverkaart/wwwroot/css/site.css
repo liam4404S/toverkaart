@@ -65,8 +65,6 @@ html {
     z-index: -2
 }
 
-
-
 .buttonDesignInlog {
     background-color: #092F87;
     color: #FFFFFF;
@@ -83,7 +81,7 @@ html {
 
 .inlogContents {
     position: relative;
-    top: 30%;
+    top: 10%;
     left: 13%;
 }
 
@@ -103,6 +101,12 @@ html {
 
 .aanmaakVisible {
     display: none;
+}
+
+.toverlandLogoInlog {
+    height: 20%;
+    margin-top: 5%;
+    margin-left: 5%;
 }
 
 /*attractielijst*/

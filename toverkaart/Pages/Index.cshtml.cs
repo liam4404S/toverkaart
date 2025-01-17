@@ -41,52 +41,68 @@ namespace toverkaart.Pages
             }
         }
 
-        public IActionResult? OnPostCreateAccount()
+        public IActionResult OnPostCreateAccount()
         {
             try
             {
-                _logger.LogInformation($"Received: {CreateVoornaam}, {CreateAchternaam}, {CreateEmail}, {CreateWachtwoord}, {CreateHerhaalWachtwoord}");
+                _logger.LogInformation($"Received account creation data: {CreateVoornaam}, {CreateAchternaam}, {CreateEmail}, {CreateWachtwoord}, {CreateHerhaalWachtwoord}");
 
                 var persoon = new Account(_databaseService);
 
+                // Validation checks
                 var emptyField = persoon.CreateAccountCheck(CreateVoornaam, CreateAchternaam, CreateEmail, CreateWachtwoord, CreateHerhaalWachtwoord, out string errorMessage);
                 if (emptyField)
                 {
+                    _logger.LogWarning($"Account creation failed due to empty field. Error: {errorMessage}");
                     ErrorMessage = errorMessage;
                     return null;
                 }
-                
+
                 var passwordDifference = persoon.CreateAccountCheck(CreateWachtwoord, CreateHerhaalWachtwoord, out errorMessage);
                 if (passwordDifference)
                 {
+                    _logger.LogWarning($"Password mismatch during account creation. Error: {errorMessage}");
                     ErrorMessage = errorMessage;
                     return null;
                 }
 
                 var existingUser = persoon.CreateAccountCheck(CreateEmail, out errorMessage);
-
                 if (existingUser)
                 {
+                    _logger.LogWarning($"Account creation failed: Email {CreateEmail} is already in use.");
                     ErrorMessage = errorMessage;
                     return null;
+                }
+
+                try
+                {
+                    persoon.Email = CreateEmail;  // This will trigger the validation in the setter
+                    persoon.Wachtwoord = CreateWachtwoord;  // This will trigger the validation in the setter
+                }
+                catch (ArgumentException ex)
+                {
+                    // If validation fails, handle the exception here
+                    ErrorMessage = ex.Message;
+                    return Page();
                 }
 
                 bool isAccountCreated = persoon.CreateAccount(CreateVoornaam, CreateAchternaam, CreateEmail, CreateWachtwoord, "Bezoeker");
 
                 if (isAccountCreated)
                 {
-                    _logger.LogInformation($"Account aangemaakt voor {CreateVoornaam} {CreateAchternaam}");
+                    _logger.LogInformation($"Account created successfully for {CreateVoornaam} {CreateAchternaam}");
                     return RedirectToPage("/Kaart");
                 }
                 else
                 {
+                    _logger.LogWarning("Failed to create account due to database insertion error.");
                     ErrorMessage = "Er is iets misgegaan bij het aanmaken van het account.";
                     return Page();
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error creating account: {ex.Message}");
+                _logger.LogError($"Error during account creation: {ex.Message}");
                 return StatusCode(500, new { success = false, message = "Interne serverfout." });
             }
         }

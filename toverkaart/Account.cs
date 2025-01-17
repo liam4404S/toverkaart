@@ -1,6 +1,8 @@
 ﻿using MySql.Data.MySqlClient;
+using System;
 using System.Data;
-using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace toverkaart
 {
@@ -13,14 +15,19 @@ namespace toverkaart
         public string Achternaam { get; set; } = string.Empty;
 
         private string _email = string.Empty;
-        public string Email 
+        public string Email
         {
             get => _email;
-            private set
+            set
             {
                 if (string.IsNullOrWhiteSpace(value) || !value.Contains("@"))
-                    throw new ArgumentException("vul een geldig email addres in.");
-                _email = value;
+                {
+                    throw new ArgumentException("Vul een geldig emailadres in.");
+                }
+                else
+                {
+                    _email = value;
+                }
             }
         }
 
@@ -28,11 +35,16 @@ namespace toverkaart
         public string Wachtwoord
         {
             get => _wachtwoord;
-            private set
+            set
             {
                 if (string.IsNullOrWhiteSpace(value) || value.Length < 6)
-                    throw new ArgumentException("wachtwoord moet 6 tekens lang zijn");
-                _wachtwoord = value;
+                { 
+                    throw new ArgumentException("Wachtwoord moet 6 tekens lang zijn.");
+                }
+                else
+                {
+                    _wachtwoord = value;
+                }
             }
         }
 
@@ -71,7 +83,7 @@ namespace toverkaart
             return null;
         }
 
-        public bool Correctlogin(string email,string wachtwoord, out string errorMessage)
+        public bool Correctlogin(string email, string wachtwoord, out string errorMessage)
         {
             var user = GetUserByEmail(email);
 
@@ -82,6 +94,7 @@ namespace toverkaart
             }
             else if (user != null && user.Wachtwoord == wachtwoord)
             {
+                var loggedInUser = user;
                 errorMessage = string.Empty;
                 return true;
             }
@@ -101,7 +114,7 @@ namespace toverkaart
                 new MySqlParameter("@Voornaam", MySqlDbType.VarChar) { Value = voornaam },
                 new MySqlParameter("@Achternaam", MySqlDbType.VarChar) { Value = achternaam },
                 new MySqlParameter("@Email", MySqlDbType.VarChar) { Value = email },
-                new MySqlParameter("@Wachtwoord", MySqlDbType.VarChar) { Value = wachtwoord }, 
+                new MySqlParameter("@Wachtwoord", MySqlDbType.VarChar) { Value = wachtwoord },
                 new MySqlParameter("@Rol", MySqlDbType.VarChar) {Value = rol}
                 };
 

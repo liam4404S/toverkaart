@@ -99,5 +99,13 @@ function toggleVisible() {
     }
 }
 
-
+//plattegrond button pop ups
+function attractiePopup() {
+    Swal.fire({
+        title: "Attractienaam",
+        text: "informatie over de attractie",
+        imageUrl: "https://placehold.co/300x300",
+        draggable: true
+    });
+}
 
