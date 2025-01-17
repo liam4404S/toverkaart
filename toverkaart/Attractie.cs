@@ -41,8 +41,8 @@ namespace toverkaart.Pages
 
             var parameters = new[]
             {
-        new MySqlParameter("@Naam", "%" + attractieNaam + "%") // Use LIKE for partial matching
-    };
+                new MySqlParameter("@Naam", "%" + attractieNaam + "%")
+            };
 
             var result = _databaseService.ExecuteQuery(query, parameters);
 
@@ -54,12 +54,10 @@ namespace toverkaart.Pages
                 {
                     var attractie = DataAttractie(row);
 
-                    // Now load the corresponding Gebied Naam for the Attractie
                     var gebiedId = Convert.ToInt32(row["gebied_id"]);
                     var gebied = new Gebied(_databaseService);
                     attractie.AttractieGebied = gebied.GetAllGebieden().FirstOrDefault(g => g.Id == gebiedId);
 
-                    // Add the Attractie to the list
                     attractielijst.Add(attractie);
                 }
             }
@@ -101,6 +99,7 @@ namespace toverkaart.Pages
             }
             return null;
         }
+
         private Attractie DataAttractie(DataRow row)
         {
             return new Attractie(

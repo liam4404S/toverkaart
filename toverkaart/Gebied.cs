@@ -33,11 +33,6 @@ namespace toverkaart
             }
         }
 
-        public List<Attractie> GetAttracties()
-        {
-            return Attracties;
-        }
-
         public List<Gebied> GetAllGebieden()
         {
             string query = "SELECT id, naam FROM gebieden";
