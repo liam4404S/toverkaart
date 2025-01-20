@@ -49,7 +49,7 @@ namespace toverkaart.Pages
 
                 var persoon = new Account(_databaseService);
 
-                // Validation checks
+                
                 var emptyField = persoon.CreateAccountCheck(CreateVoornaam, CreateAchternaam, CreateEmail, CreateWachtwoord, CreateHerhaalWachtwoord, out string errorMessage);
                 if (emptyField)
                 {
@@ -76,12 +76,11 @@ namespace toverkaart.Pages
 
                 try
                 {
-                    persoon.Email = CreateEmail;  // This will trigger the validation in the setter
-                    persoon.Wachtwoord = CreateWachtwoord;  // This will trigger the validation in the setter
+                    persoon.Email = CreateEmail;  
+                    persoon.Wachtwoord = CreateWachtwoord;
                 }
                 catch (ArgumentException ex)
                 {
-                    // If validation fails, handle the exception here
                     ErrorMessage = ex.Message;
                     return Page();
                 }

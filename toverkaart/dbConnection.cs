@@ -9,14 +9,6 @@ namespace toverkaart
         private readonly string _connectionString;
         private readonly ILogger<DatabaseService> _logger;
 
-        public DatabaseService(IConfiguration configuration, ILogger<DatabaseService> logger)
-        {
-            _connectionString = configuration.GetConnectionString("DefaultConnection")
-                                ?? throw new InvalidOperationException("Connection string not found.");
-
-            _logger = logger;
-        }
-
         public MySqlConnection GetConnection()
         {
             try

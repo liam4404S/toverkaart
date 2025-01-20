@@ -20,10 +20,9 @@ namespace toverkaart.Pages
         public IActionResult? OnPostSearch()
         {
             var attractie = new Attractie(_databaseService);
-            // Get the list of all attracties that match the search term
+
             GevondenAttracties = attractie.GetAllAttracties(AttractieNaam);
 
-            // If no attracties are found, add a model error
             if (GevondenAttracties.Count == 0)
             {
                 ModelState.AddModelError(string.Empty, "Geen attractie gevonden.");
